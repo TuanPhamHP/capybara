@@ -1,13 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
-// const connection = require('./database/index');
-const authController = require('./controllers/authController');
-const authMiddleware = require('./middleware/authenticate');
 const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 // Cấu hình EJS làm view engine
 app.set('view engine', 'ejs');
 
@@ -24,6 +22,10 @@ const pool = new Pool({
 	},
 });
 
+pool
+	.connect()
+	.then(() => console.log('Database connected successfully!'))
+	.catch(err => console.error('Database connection error:', err));
 // Middleware
 app.use(express.json());
 
