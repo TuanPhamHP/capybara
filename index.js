@@ -1,11 +1,13 @@
+// index.js
 require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const { Pool } = require('pg');
+const sequelize = require('./config/database'); // Import cấu hình Sequelize
 
 const app = express();
 const PORT = process.env.PG_PORT || 3000;
+
 // Cấu hình EJS làm view engine
 app.set('view engine', 'ejs');
 
@@ -15,21 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Thiết lập express để phục vụ các file tĩnh từ thư mục 'public'
 app.use(express.static('public'));
 
-const pool = new Pool({
-	user: process.env.PG_USER,
-	host: process.env.PG_HOST,
-	database: process.env.PG_DATABASE,
-	password: process.env.PG_PASSWORD,
-	port: process.env.PG_PORT,
-	max: process.env.PG_MAX || 10, // Giá trị mặc định
-	idleTimeoutMillis: process.env.PG_IDLE_TIMEOUT || 30000,
-	connectionTimeoutMillis: process.env.PG_CONNECTION_TIMEOUT || 2000,
-});
-
-pool
-	.connect()
-	.then(() => console.log('Database connected successfully!'))
-	.catch(err => console.error('Database connection error:', err));
 // Middleware
 app.use(express.json());
 
@@ -38,14 +25,21 @@ app.get('/', (req, res) => {
 	res.send('Welcome to the Node.js API!');
 });
 
+// Thêm route để truy vấn dữ liệu từ Sequelize
 app.get('/data', async (req, res) => {
 	try {
-		const result = await pool.query('SELECT * FROM sample_table');
-		res.json(result.rows);
+		const result = await sequelize.query('SELECT * FROM sample_table'); // Đảm bảo rằng bảng sample_table tồn tại trong DB
+		res.json(result[0]); // Sequelize trả về kết quả trong mảng, lấy phần tử đầu tiên
 	} catch (error) {
 		res.status(500).send(error.message);
 	}
 });
+
+// Kiểm tra kết nối tới database khi ứng dụng khởi động
+sequelize
+	.authenticate()
+	.then(() => console.log('Database connected successfully!'))
+	.catch(err => console.error('Database connection error:', err));
 
 // Start server
 app.listen(PORT, () => {
