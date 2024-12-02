@@ -1,5 +1,5 @@
 require('dotenv').config(); // Load file .env
-
+const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
 	development: {
 		username: process.env.PG_USER,
@@ -34,5 +34,13 @@ module.exports = {
 			idle: parseInt(process.env.PG_IDLE_TIMEOUT) || 30000,
 			acquire: parseInt(process.env.PG_CONNECTION_TIMEOUT) || 2000,
 		},
+		dialectOptions: isProduction
+			? {
+					ssl: {
+						require: true,
+						rejectUnauthorized: false, // Cấm verify SSL certificate (chỉ khi cần thiết trong môi trường production)
+					},
+			  }
+			: {},
 	},
 };
