@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
 // Kiểm tra nếu là môi trường production (Render hoặc các môi trường cloud khác yêu cầu SSL)
-const isProduction = process.env.NODE_ENV === 'production';
+const isDev = process.env.NODE_ENV === 'dev';
 
 const sequelize = new Sequelize({
 	dialect: 'postgres',
@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
 	username: process.env.PG_USER,
 	password: process.env.PG_PASSWORD,
 	database: process.env.PG_DATABASE,
-	dialectOptions: isProduction
+	dialectOptions: !isDev
 		? {
 				ssl: {
 					require: true,
