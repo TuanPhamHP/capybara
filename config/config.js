@@ -7,7 +7,10 @@ module.exports = {
 		database: process.env.PG_DATABASE,
 		host: process.env.PG_HOST,
 		port: process.env.PG_PORT,
-		dialect: 'postgres',
+		dialect: 'postgres', // Cần thêm dòng này để chỉ định PostgreSQL
+		dialectOptions: {
+			ssl: false,
+		},
 		pool: {
 			max: parseInt(process.env.PG_MAX) || 10,
 			idle: parseInt(process.env.PG_IDLE_TIMEOUT) || 30000,
