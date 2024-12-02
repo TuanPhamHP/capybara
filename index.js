@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PG_PORT || 3000;
 // Cấu hình EJS làm view engine
 app.set('view engine', 'ejs');
 
@@ -16,10 +16,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 const pool = new Pool({
-	connectionString: process.env.DATABASE_URL,
-	ssl: {
-		rejectUnauthorized: false, // Required for Render's PostgreSQL
-	},
+	user: process.env.PG_USER,
+	host: process.env.PG_HOST,
+	database: process.env.PG_DATABASE,
+	password: process.env.PG_PASSWORD,
+	port: process.env.PG_PORT,
+	max: process.env.PG_MAX || 10, // Giá trị mặc định
+	idleTimeoutMillis: process.env.PG_IDLE_TIMEOUT || 30000,
+	connectionTimeoutMillis: process.env.PG_CONNECTION_TIMEOUT || 2000,
 });
 
 pool

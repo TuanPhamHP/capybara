@@ -6,7 +6,9 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"serve": "nodemon index.js",
-		"start": "node index.js"
+		"start": "node index.js",
+		"migrations-run": "npx sequelize-cli db:migrate",
+		"migrations-make": "npx sequelize-cli migration:generate --name create_schema"
 	},
 	"keywords": [],
 	"author": "",
@@ -18,6 +20,9 @@
 		"express": "^4.21.0",
 		"jsonwebtoken": "^9.0.2",
 		"mysql2": "^3.11.3",
-		"pg": "^8.13.1"
+		"pg": "^8.13.1",
+		"pg-hstore": "^2.3.4",
+		"sequelize": "^6.37.5",
+		"sequelize-cli": "^6.6.2"
 	}
 }
