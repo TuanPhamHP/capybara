@@ -8,6 +8,7 @@ module.exports = {
 		host: process.env.PG_HOST,
 		port: process.env.PG_PORT,
 		dialect: 'postgres', // Cần thêm dòng này để chỉ định PostgreSQL
+		seederStorage: 'sequelize', // Sử dụng bảng SequelizeMeta cho seeders
 		dialectOptions: {
 			ssl: false,
 		},
@@ -24,6 +25,7 @@ module.exports = {
 		host: process.env.PG_HOST,
 		port: process.env.PG_PORT,
 		dialect: 'postgres',
+		seederStorage: 'sequelize',
 	},
 	production: {
 		username: process.env.PG_USER,
@@ -32,6 +34,7 @@ module.exports = {
 		host: process.env.PG_HOST,
 		port: process.env.PG_PORT,
 		dialect: 'postgres',
+		seederStorage: 'sequelize',
 		pool: {
 			max: parseInt(process.env.PG_MAX) || 10,
 			idle: parseInt(process.env.PG_IDLE_TIMEOUT) || 30000,

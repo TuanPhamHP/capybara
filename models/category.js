@@ -9,16 +9,18 @@ module.exports = sequelize => {
 	Category.init(
 		{
 			id: {
-				type: DataTypes.UUID,
-				defaultValue: DataTypes.UUIDV4,
+				type: DataTypes.INTEGER, // Đổi kiểu từ UUID sang INTEGER
+				autoIncrement: true, // Tự động tăng giá trị
 				primaryKey: true,
 			},
-			name: DataTypes.STRING,
+			name: DataTypes.TEXT,
+			description: DataTypes.STRING,
 		},
 		{
 			sequelize,
 			modelName: 'Category',
 			tableName: 'categories',
+			timestamps: true,
 		}
 	);
 	return Category;

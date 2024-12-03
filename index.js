@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database'); // Import cấu hình Sequelize
 const orderRoutes = require('./routes/orders');
+const categoryRoutes = require('./routes/categories');
 
 const app = express();
 const PORT = process.env.PG_PORT || 3000;
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(orderRoutes);
+app.use(categoryRoutes);
 
 // Kiểm tra kết nối tới database khi ứng dụng khởi động
 sequelize
