@@ -27,8 +27,8 @@ app.get('/', (req, res) => {
 	res.send('Welcome to the Node.js API!');
 });
 
-app.use(orderRoutes);
-app.use(categoryRoutes);
+app.use('/api/', orderRoutes);
+app.use('/api/', categoryRoutes);
 
 // Kiểm tra kết nối tới database khi ứng dụng khởi động
 sequelize

@@ -61,8 +61,8 @@ class CategoryController {
 				return res.status(400).json(responseFail(errorMessages.join(', ')));
 			}
 
-			const { name, description = '' } = value; // Dữ liệu đã được xác thực
-			const category = await this.category.create({ name, description });
+			const { name, description = '', image = null } = value; // Dữ liệu đã được xác thực
+			const category = await this.category.create({ name, description, image });
 			res.status(200).json(responseSuccess('category', category));
 		} catch (error) {
 			res.status(500).json(responseFail(error.message));
@@ -86,9 +86,10 @@ class CategoryController {
 				return res.status(400).json(responseFail(errorMessages.join(', ')));
 			}
 
-			const { name, description = '' } = value; // Dữ liệu đã được xác thực
+			const { name, description = '', image = null } = value; // Dữ liệu đã được xác thực
 			category.name = name;
 			category.description = description;
+			category.image = image;
 			category.save();
 			res.status(200).json(responseSuccess('category', category));
 		} catch (error) {
