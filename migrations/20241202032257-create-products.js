@@ -54,6 +54,10 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
-		await queryInterface.dropTable('products');
+		await queryInterface.changeColumn('products', 'id', {
+			type: Sequelize.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		});
 	},
 };

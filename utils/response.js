@@ -12,9 +12,11 @@
 const responseSuccess = (key, data, pagination = null) => {
 	let response = {
 		success: true,
-		data: {
-			[key]: data,
-		},
+		data: data
+			? {
+					[key]: data,
+			  }
+			: null,
 	};
 	if (pagination) {
 		const { total, count, per_page, current_page } = pagination;

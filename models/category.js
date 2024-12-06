@@ -9,8 +9,8 @@ module.exports = sequelize => {
 	Category.init(
 		{
 			id: {
-				type: DataTypes.INTEGER, // Đổi kiểu từ UUID sang INTEGER
-				autoIncrement: true, // Tự động tăng giá trị
+				type: DataTypes.INTEGER,
+				autoIncrement: true,
 				primaryKey: true,
 			},
 			name: DataTypes.TEXT,
