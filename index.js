@@ -20,6 +20,8 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false })); // application/x-www-form-urlencoded
 app.use(express.json()); // application/json
 
+app.use(cors());
+
 // Middleware Multer để xử lý multipart/form-data
 app.use(upload.none()); // Dùng upload.none() nếu form không có file
 // Thiết lập express để phục vụ các file tĩnh từ thư mục 'public'
@@ -47,5 +49,3 @@ sequelize
 app.listen(3000, () => {
 	console.log(`Server is running on port ${3000}`);
 });
-
-app.use(cors());
