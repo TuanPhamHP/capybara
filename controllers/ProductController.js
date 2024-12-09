@@ -1,7 +1,6 @@
-const { Product } = require('../models');
+const { Product, Sale, Category } = require('../models');
 const { responseSuccess, responseFail } = require('../utils/response');
 const { createRequest } = require('./validationRequest/Product');
-const { Sale } = require('../models');
 
 class ProductController {
 	/**
@@ -19,7 +18,7 @@ class ProductController {
 	};
 	getAll = async (req, res) => {
 		try {
-			const options = {};
+			const options = { include: [{ model: Category, required: true, as: 'category' }] };
 			const { page, per_page } = req.query;
 
 			if (page && per_page) {
@@ -43,8 +42,9 @@ class ProductController {
 	getDetail = async (req, res) => {
 		try {
 			// console.log(this.Product);
+			const options = { include: [{ model: Category, required: true, as: 'category' }] };
 			const { id } = req.params;
-			const product = await this.product.findByPk(id);
+			const product = await this.product.findByPk(id, options);
 			if (product) {
 				res.status(200).json(responseSuccess('product', product));
 			} else {
@@ -57,14 +57,15 @@ class ProductController {
 
 	create = async (req, res) => {
 		try {
-			const { name, description, price, images, saleId } = req.body;
-
+			const { name, description, price, images, saleId, categoryId } = req.body;
+			console.log(req.body);
 			const product = await Product.create({
 				name,
 				description,
 				price,
 				images,
-				saleId,
+				saleId: saleId || null,
+				categoryId: categoryId || null,
 			});
 			res.status(200).json(responseSuccess('product', product));
 		} catch (error) {

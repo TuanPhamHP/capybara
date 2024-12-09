@@ -7,6 +7,7 @@ const sequelize = require('./config/database'); // Import cấu hình Sequelize
 const orderRoutes = require('./routes/orders');
 const categoryRoutes = require('./routes/categories');
 const productRoutes = require('./routes/products');
+const cors = require('cors');
 
 const app = express();
 const upload = multer();
@@ -46,3 +47,5 @@ sequelize
 app.listen(3000, () => {
 	console.log(`Server is running on port ${3000}`);
 });
+
+app.use(cors());
