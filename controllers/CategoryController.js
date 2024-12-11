@@ -1,6 +1,6 @@
 const { Category } = require('../models');
 const { responseSuccess, responseFail } = require('../utils/response');
-const { createRequest } = require('./validationRequest/Category');
+const { createRequest, updateRequest } = require('./validationRequest/Category');
 class CategoryController {
 	/**
 	 *
@@ -77,7 +77,7 @@ class CategoryController {
 				return;
 			}
 
-			const schema = createRequest();
+			const schema = updateRequest();
 			const { error, value } = schema.validate(req.body, { abortEarly: false });
 
 			// Nếu có lỗi validation, trả về thông báo lỗi chi tiết
@@ -87,9 +87,9 @@ class CategoryController {
 			}
 
 			const { name, description = '', image = null } = value; // Dữ liệu đã được xác thực
-			category.name = name;
-			category.description = description;
-			category.image = image;
+			category.name = name || category.name;
+			category.description = description || category.description;
+			category.image = image || category.image;
 			category.save();
 			res.status(200).json(responseSuccess('category', category));
 		} catch (error) {

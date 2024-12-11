@@ -7,6 +7,8 @@ const sequelize = require('./config/database'); // Import cấu hình Sequelize
 const orderRoutes = require('./routes/orders');
 const categoryRoutes = require('./routes/categories');
 const productRoutes = require('./routes/products');
+const authRoutes = require('./routes/auth');
+const authenticate = require('./middleware/authenticate');
 const cors = require('cors');
 
 const app = express();
@@ -38,6 +40,7 @@ app.get('/', (req, res) => {
 app.use('/api/', orderRoutes);
 app.use('/api/', categoryRoutes);
 app.use('/api/', productRoutes);
+app.use('/api/', authRoutes);
 
 // Kiểm tra kết nối tới database khi ứng dụng khởi động
 sequelize

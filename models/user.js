@@ -9,14 +9,14 @@ module.exports = sequelize => {
 	User.init(
 		{
 			id: {
-				type: DataTypes.UUID,
-				defaultValue: DataTypes.UUIDV4,
+				type: DataTypes.INTEGER,
+				autoIncrement: true,
 				primaryKey: true,
 			},
 			name: DataTypes.STRING,
 			email: { type: DataTypes.STRING, unique: true },
 			password: DataTypes.STRING,
-			role: { type: DataTypes.ENUM('customer', 'admin'), defaultValue: 'customer' },
+			role: { type: DataTypes.ENUM('client', 'admin'), defaultValue: 'client' },
 		},
 		{
 			sequelize,
