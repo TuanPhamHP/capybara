@@ -8,4 +8,8 @@ const userController = new UserController(User);
 router.post('/admin/auth/login', userController.login);
 router.post('/admin/auth/register', userController.register);
 
+// Customer routes
+router.post('/customer/auth/login', userController.login);
+router.post('/customer/auth/register', userController.customerRegister);
+
 module.exports = router;

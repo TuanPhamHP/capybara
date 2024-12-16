@@ -47,6 +47,40 @@ class UserController {
 		}
 	};
 
+	customerRegister = async (req, res) => {
+		try {
+			// Validate dữ liệu từ client
+			const schema = createRequest();
+			const { error, value } = schema.validate(req.body, { abortEarly: false });
+
+			if (error) {
+				const errorMessages = error.details.map(detail => detail.message);
+				return res.status(400).json(responseFail(errorMessages.join(', ')));
+			}
+
+			const { name, email, password } = value; // Dữ liệu đã xác thực
+
+			// Kiểm tra xem email đã tồn tại hay chưa
+			const existingUser = await this.user.findOne({ where: { email } });
+			if (existingUser) {
+				return res.status(400).json(responseFail('Email đã tồn tại.'));
+			}
+
+			// Mã hóa mật khẩu
+			const hashedPassword = await bcrypt.hash(password, 10);
+
+			// Lưu user vào database
+			const newUser = await this.user.create({ name, email, password: hashedPassword, role: 'customer' });
+
+			// Trả về phản hồi thành công
+			res.status(201).json(responseSuccess('user', newUser));
+		} catch (err) {
+			// Phản hồi lỗi không mong muốn
+			console.log(err);
+			res.status(500).json(responseFail('Đã xảy ra lỗi, vui lòng thử lại sau.'));
+		}
+	};
+
 	login = async (req, res) => {
 		try {
 			const schema = loginRequest();
