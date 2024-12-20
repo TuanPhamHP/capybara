@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/', orderRoutes);
 app.use('/api/', categoryRoutes);
-app.use('/api/', authenticate, productRoutes);
+app.use('/api/', productRoutes);
 app.use('/api/', authRoutes);
 
 // Kiểm tra kết nối tới database khi ứng dụng khởi động
