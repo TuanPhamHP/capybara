@@ -37,10 +37,10 @@ app.get('/', (req, res) => {
 	res.send('Welcome to the Node.js API!');
 });
 
-app.use('/api/', orderRoutes);
-app.use('/api/', categoryRoutes);
-app.use('/api/', productRoutes);
 app.use('/api/', authRoutes);
+app.use('/api/', authenticate, orderRoutes);
+app.use('/api/', authenticate, productRoutes);
+app.use('/api/', authenticate, categoryRoutes);
 
 // Kiểm tra kết nối tới database khi ứng dụng khởi động
 sequelize
